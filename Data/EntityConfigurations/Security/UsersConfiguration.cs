@@ -9,7 +9,9 @@ namespace IdentityAPI.Data.EntityConfigurations.Security
         public void Configure(EntityTypeBuilder<ApplicationUser> builder)
         {
             builder.ToTable("users", "security");
-            builder.Ignore(e => e.PhoneNumberConfirmed);
+            //builder.Ignore(e => e.PhoneNumberConfirmed);
+            builder.Property(p => p.FirstName).IsRequired(false).HasMaxLength(50);
+            builder.Property(p => p.LastName).IsRequired(false).HasMaxLength(50);
         }
     }
 }

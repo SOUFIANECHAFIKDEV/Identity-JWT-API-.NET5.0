@@ -32,7 +32,7 @@ namespace IdentityAPI.Installers
 
             services.AddMvc();
 
-            
+            services.Configure<MailSettings>(Configuration.GetSection("Mail"));
 
             services.AddSingleton<IUriService>(provider =>
             {

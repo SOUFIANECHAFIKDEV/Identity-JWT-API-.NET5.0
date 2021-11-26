@@ -12,7 +12,7 @@ namespace IdentityAPI.Installers
         {
             services.AddHealthChecks()
                     .AddDbContextCheck<DataContext>()
-                    .AddCheck<CustomHealthCheck>("ustom"); // 'Custom' is the component name
+                    .AddCheck<CustomHealthCheck>("Custom"); // 'Custom' is the component name
         }
     }
 }

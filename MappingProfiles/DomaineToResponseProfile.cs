@@ -1,7 +1,6 @@
 ﻿using IdentityAPI.Contracts.V1.Responses;
 using IdentityAPI.Domain;
 using AutoMapper;
-using System.Linq;
 
 namespace IdentityAPI.MappingProfiles
 {
@@ -9,6 +8,8 @@ namespace IdentityAPI.MappingProfiles
     {
         public DomaineToResponseProfile()
         {
+            CreateMap<ApplicationUser, UserResponse>()
+                     .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id));
         }
     }
 }

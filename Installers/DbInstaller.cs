@@ -21,7 +21,17 @@ namespace IdentityAPI.Installers
             services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             //configure identity default tables
-            services.AddDefaultIdentity<ApplicationUser>().AddRoles<IdentityRole>().AddEntityFrameworkStores<DataContext>();
+            services.AddDefaultIdentity<ApplicationUser>(config =>
+            {
+                config.Password.RequiredLength = 4;
+                config.Password.RequireDigit = false;
+                config.Password.RequireNonAlphanumeric = false;
+                config.Password.RequireUppercase = false;
+                config.SignIn.RequireConfirmedEmail = false;
+                config.SignIn.RequireConfirmedPhoneNumber = false;
+            })
+            .AddRoles<IdentityRole>()
+            .AddEntityFrameworkStores<DataContext>();
         }
     }
 }

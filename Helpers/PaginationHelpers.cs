@@ -9,14 +9,26 @@ namespace IdentityAPI.Helpers
 {
     public class PaginationHelpers
     {
-        public static object CreatePaginatedResponse<T>(IUriService uriService, PaginationFilter pagination, List<T> response)
+        public static PageResponse<T> CreatePaginatedResponse<T>(IUriService uriService, PaginationFilter pagination, List<T> response, bool hasNextPage, bool hasPreviousPage)
         {
+            var nextPage = pagination.PageNumber >= 1
+                ? uriService.GetAllUsersUri(new PaginationQuery(pagination.PageNumber + 1, pagination.PageSize)).ToString()
+                : null;
+
+            var previousPage = pagination.PageNumber - 1 >= 1
+                ? uriService.GetAllUsersUri(new PaginationQuery(pagination.PageNumber + 1, pagination.PageSize)).ToString()
+                : null;
+
+
             return new PageResponse<T>
             {
                 Data = response,
                 PageNumber = pagination.PageSize >= 1 ? pagination.PageSize : (int?)null,
-                NextPage = null,
-                PreviousPage = null
+                PageSize = pagination.PageSize,
+                NextPage = response.Any() ? nextPage : null,
+                PreviousPage = previousPage,
+                HasNextPage = hasNextPage,
+                HasPreviousPage = hasPreviousPage,
             };
         }
     }
