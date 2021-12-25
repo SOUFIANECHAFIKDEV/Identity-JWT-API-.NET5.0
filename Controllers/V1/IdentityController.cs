@@ -34,7 +34,10 @@ namespace IdentityAPI.Controllers.V1
         [HttpPost(ApiRoutes.Identity.Register)]
         public async Task<IActionResult> Register([FromBody] UserRegistrationRequest request)
         {
-            var authResponse = await _identityService.RegisterAsync(request.Email, request.Password);
+            //UserRegistration, UserRegistrationRequest
+            var userRegistration = _mapper.Map<UserRegistration>(request);
+
+            var authResponse = await _identityService.RegisterAsync(request);
 
             if (!authResponse.Success)
             {

@@ -8,5 +8,9 @@ namespace IdentityAPI.Domain
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public List<RefreshToken> RefreshTokens { get; set; }
+        public int CityId { get; set; }
+        public City City { get; set; }
+        public int LegalStatusId { get; set; }
+        public LegalStatus LegalStatus { get; set; }
     }
 }

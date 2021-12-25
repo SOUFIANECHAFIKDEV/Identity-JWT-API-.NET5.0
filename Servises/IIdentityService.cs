@@ -8,7 +8,7 @@ namespace IdentityAPI.Servises
 {
     public interface IIdentityService
     {
-        public Task<AuthenticationResult> RegisterAsync(string email, string password);
+        public Task<AuthenticationResult> RegisterAsync(UserRegistration newUser);
         public Task<Result> ConfirmEmailAsync(string UserId, string EmailConfirmationToken);
 
         public Task<AuthenticationResult> LoginAsync(string email, string password);

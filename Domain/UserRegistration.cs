@@ -1,6 +1,6 @@
-﻿namespace IdentityAPI.Contracts.V1.Requests
+﻿namespace IdentityAPI.Domain
 {
-    public class UserRegistrationRequest
+    public class UserRegistration
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using IdentityAPI.Data.EntityConfigurations.Security;
+using IdentityAPI.Data.EntityConfigurations.References;
 
 namespace IdentityAPI.Data
 {
@@ -12,6 +13,9 @@ namespace IdentityAPI.Data
         }
 
         public DbSet<RefreshToken> RefreshTokens { get; set; }
+        public DbSet<City> City { get; set; }
+        public DbSet<LegalStatus> LegalStatus { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -24,6 +28,8 @@ namespace IdentityAPI.Data
             builder.ApplyConfiguration(new UserRoleClaimsConfiguration());
             builder.ApplyConfiguration(new UserTokensConfiguration());
             builder.ApplyConfiguration(new RefreshTokenConfiguration());
+            builder.ApplyConfiguration(new CityConfiguration());
+            builder.ApplyConfiguration(new LegalStatusConfiguration());
         }
     }
 }

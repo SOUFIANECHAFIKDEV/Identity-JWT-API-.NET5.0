@@ -47,10 +47,10 @@ namespace IdentityAPI.Servises
             _mailSettings = mailSettings.Value;
             _client = client;
         }
-        public async Task<AuthenticationResult> RegisterAsync(string email, string password)
+        public async Task<AuthenticationResult> RegisterAsync(UserRegistration newUser)
         {
             #region check if the user email alerady registed
-            var existingUser = await _userManager.FindByEmailAsync(email);
+            var existingUser = await _userManager.FindByEmailAsync(newUser.Email);
 
             if (existingUser != null)
             {
@@ -63,14 +63,19 @@ namespace IdentityAPI.Servises
             #endregion
 
             #region save the user in the database
-            var newUser = new ApplicationUser
+            var newApplicationUser = new ApplicationUser
             {
                 Id = Guid.NewGuid().ToString(),
-                Email = email,
-                UserName = email
+                Email = newUser.Email,
+                FirstName = newUser.FirstName,
+                LastName = newUser.LastName,
+                PhoneNumber = newUser.PhoneNumber,
+                CityId = newUser.CityId,
+                LegalStatusId = newUser.LegalStatusId,
+
             };
 
-            var createdUser = await _userManager.CreateAsync(newUser, password);
+            var createdUser = await _userManager.CreateAsync(newApplicationUser, newUser.Password);
 
             if (!createdUser.Succeeded)
             {
@@ -92,15 +97,15 @@ namespace IdentityAPI.Servises
             #endregion
 
             #region assign the default user roles
-            await _userManager.AddToRoleAsync(newUser, Roles.Admin);
+            await _userManager.AddToRoleAsync(newApplicationUser, Roles.Admin);
             #endregion
 
             #region assign the default Authorized application features claims to the user
-            await _userManager.AddClaimAsync(newUser, new Claim(type: ApplicationFeaturesClaims.ClaimName, value: ApplicationFeaturesClaims.Module1.Feature1));
-            await _userManager.AddClaimAsync(newUser, new Claim(type: ApplicationFeaturesClaims.ClaimName, value: ApplicationFeaturesClaims.Module2.Feature1));
+            await _userManager.AddClaimAsync(newApplicationUser, new Claim(type: ApplicationFeaturesClaims.ClaimName, value: ApplicationFeaturesClaims.Module1.Feature1));
+            await _userManager.AddClaimAsync(newApplicationUser, new Claim(type: ApplicationFeaturesClaims.ClaimName, value: ApplicationFeaturesClaims.Module2.Feature1));
             #endregion
 
-            return await GenerateAuthenticationResultForUserAsync(newUser);
+            return await GenerateAuthenticationResultForUserAsync(newApplicationUser);
         }
 
         public async Task<Result> ConfirmEmailAsync(string UserId, string EmailConfirmationToken)
