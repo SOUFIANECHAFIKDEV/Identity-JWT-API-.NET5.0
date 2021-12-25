@@ -23,5 +23,7 @@ namespace IdentityAPI.Contracts.V1.Responses
         public int? PageSize { get; set; }
         public string NextPage  { get; set; }
         public string PreviousPage { get; set; }
+        public bool HasNextPage { get; set; }
+        public bool HasPreviousPage { get; set; }
     }
 }

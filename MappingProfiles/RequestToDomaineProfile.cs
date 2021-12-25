@@ -1,6 +1,7 @@
 ﻿using IdentityAPI.Contracts.V1.Requests.Queries;
 using IdentityAPI.Domain;
 using AutoMapper;
+using IdentityAPI.Contracts.V1.Requests;
 
 namespace IdentityAPI.MappingProfiles
 {
@@ -9,6 +10,7 @@ namespace IdentityAPI.MappingProfiles
         public RequestToDomaineProfile()
         {
             CreateMap<PaginationQuery, PaginationFilter>();
+            CreateMap<UpdateUserProfileRequest, ApplicationUser>();
         }
     }
 }

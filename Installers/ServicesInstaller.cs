@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using IdentityAPI.Extension.Installers;
+using IdentityAPI.Servises;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using IdentityAPI.Data;
-using IdentityAPI.Domain;
-using IdentityAPI.Extension.Installers;
-using IdentityAPI.Servises;
+using Twilio.Clients;
 
 namespace IdentityAPI.Installers
 {
@@ -15,9 +13,8 @@ namespace IdentityAPI.Installers
     {
         public void InstallerServices(IServiceCollection services, IConfiguration Configuration)
         {
-            //services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<DataContext>();
-            //services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddScoped<IIdentityService, IdentityService>();
+            services.AddHttpClient<ITwilioRestClient, TwilioClient>();
         }
     }
 }

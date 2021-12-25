@@ -24,6 +24,7 @@ namespace IdentityAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.InstallerServicesInAssembly(Configuration);
+            services.AddAutoMapper(typeof(Startup));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
