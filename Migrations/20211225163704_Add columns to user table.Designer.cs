@@ -4,14 +4,16 @@ using IdentityAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IdentityAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211225163704_Add columns to user table")]
+    partial class Addcolumnstousertable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,6 +82,10 @@ namespace IdentityAPI.Migrations
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
@@ -212,15 +218,15 @@ namespace IdentityAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "0cd4d1a7-a6b5-40e0-b3d7-b0b31b593fc9",
-                            ConcurrencyStamp = "c98454d2-763c-4ac1-94b3-e64acf0ea488",
+                            Id = "98383f39-8e04-41b3-bd27-bc504bb9c5e5",
+                            ConcurrencyStamp = "0b985780-69b8-41ae-8606-f7809dbe03bb",
                             Name = "superAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
-                            Id = "0bfe7e13-35fa-41c3-b574-60678d366aff",
-                            ConcurrencyStamp = "b81cdba5-05e1-4569-b2eb-d4a18d4245f9",
+                            Id = "c6c55cd5-3e53-4315-85dc-973b1fdd6d44",
+                            ConcurrencyStamp = "a7738a85-8347-41d8-ad6e-6fc363028069",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         });

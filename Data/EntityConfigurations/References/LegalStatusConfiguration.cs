@@ -13,6 +13,7 @@ namespace IdentityAPI.Data.EntityConfigurations.References
             builder.HasKey(p => p.Id);
             builder.Property(p => p.Id).ValueGeneratedOnAdd();
             builder.HasMany(p => p.Users).WithOne(x => x.LegalStatus).HasForeignKey(x => x.LegalStatusId);
+            builder.Property(p => p.Name);
 
             //Seed data
             builder.HasData(

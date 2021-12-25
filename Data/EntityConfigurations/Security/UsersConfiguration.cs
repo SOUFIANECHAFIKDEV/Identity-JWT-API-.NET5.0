@@ -12,6 +12,7 @@ namespace IdentityAPI.Data.EntityConfigurations.Security
             //builder.Ignore(e => e.PhoneNumberConfirmed);
             builder.Property(p => p.FirstName).IsRequired(false).HasMaxLength(50);
             builder.Property(p => p.LastName).IsRequired(false).HasMaxLength(50);
+            builder.Ignore(p => p.UserName);
         }
     }
 }

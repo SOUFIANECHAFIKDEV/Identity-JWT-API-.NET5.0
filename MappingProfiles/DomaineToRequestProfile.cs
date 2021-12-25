@@ -8,7 +8,7 @@ namespace IdentityAPI.MappingProfiles
     {
         public DomaineToRequestProfile()
         {
-            CreateMap<UserRegistration, UserRegistrationRequest>();
+            CreateMap<UserRegistrationRequest, UserRegistration>();
         }
     }
 }

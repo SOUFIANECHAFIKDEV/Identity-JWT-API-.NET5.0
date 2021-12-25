@@ -37,7 +37,7 @@ namespace IdentityAPI.Controllers.V1
             //UserRegistration, UserRegistrationRequest
             var userRegistration = _mapper.Map<UserRegistration>(request);
 
-            var authResponse = await _identityService.RegisterAsync(request);
+            var authResponse = await _identityService.RegisterAsync(userRegistration);
 
             if (!authResponse.Success)
             {
@@ -47,10 +47,10 @@ namespace IdentityAPI.Controllers.V1
                 });
             }
 
-            return Ok(new AuthSuccessResponse
-            {
-                Token = authResponse.Token,
-                RefreshToken = authResponse.RefreshToken
+            return Ok(new UserRegistrationSuccessResponse {
+                Email = request.Email,
+                FirstName = request.FirstName,
+                LastName = request.LastName
             });
         }
 

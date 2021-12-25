@@ -15,6 +15,7 @@ namespace IdentityAPI
     public class Startup
     {
         public IConfiguration Configuration { get; }
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
         public Startup(IConfiguration configuration)
         {
@@ -23,6 +24,17 @@ namespace IdentityAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  builder =>
+                                  {
+                                      builder.AllowAnyOrigin()
+                                            .AllowAnyHeader()
+                                            .AllowAnyMethod();
+                                  });
+            });
+
             services.InstallerServicesInAssembly(Configuration);
             services.AddAutoMapper(typeof(Startup));
         }
@@ -59,7 +71,7 @@ namespace IdentityAPI
                     await context.Response.WriteAsync(JsonConvert.SerializeObject(response));
                 }
             });
-
+            app.UseCors(MyAllowSpecificOrigins);
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseAuthentication();

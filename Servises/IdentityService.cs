@@ -67,12 +67,12 @@ namespace IdentityAPI.Servises
             {
                 Id = Guid.NewGuid().ToString(),
                 Email = newUser.Email,
+                UserName = newUser.Email,
                 FirstName = newUser.FirstName,
                 LastName = newUser.LastName,
                 PhoneNumber = newUser.PhoneNumber,
                 CityId = newUser.CityId,
                 LegalStatusId = newUser.LegalStatusId,
-
             };
 
             var createdUser = await _userManager.CreateAsync(newApplicationUser, newUser.Password);
@@ -101,8 +101,8 @@ namespace IdentityAPI.Servises
             #endregion
 
             #region assign the default Authorized application features claims to the user
-            await _userManager.AddClaimAsync(newApplicationUser, new Claim(type: ApplicationFeaturesClaims.ClaimName, value: ApplicationFeaturesClaims.Module1.Feature1));
-            await _userManager.AddClaimAsync(newApplicationUser, new Claim(type: ApplicationFeaturesClaims.ClaimName, value: ApplicationFeaturesClaims.Module2.Feature1));
+            //await _userManager.AddClaimAsync(newApplicationUser, new Claim(type: ApplicationFeaturesClaims.ClaimName, value: ApplicationFeaturesClaims.Module1.Feature1));
+            //await _userManager.AddClaimAsync(newApplicationUser, new Claim(type: ApplicationFeaturesClaims.ClaimName, value: ApplicationFeaturesClaims.Module2.Feature1));
             #endregion
 
             return await GenerateAuthenticationResultForUserAsync(newApplicationUser);
