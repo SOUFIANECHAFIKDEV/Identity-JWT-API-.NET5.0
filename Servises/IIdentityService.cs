@@ -18,8 +18,8 @@ namespace IdentityAPI.Servises
         public Task<Result> ChangeEmailAsync(string UserId, string NewEmail, string token);
         public Task<Result> SendChangeEmailConfirmationAsync(string UserId, string NewEmail);
 
-        public Task<Result> ResetPasswordAsync(string UserId, string token, string newPassword);
-        public Task<Result> SendResetPasswordConfirmationEmailAsync(string UserId);
+        public Task<Result> ResetPasswordAsync(string UserEmail, string token, string newPassword);
+        public Task<Result> SendResetPasswordConfirmationEmailAsync(string UserEmail);
 
         public IQueryable<ApplicationUser> GetAllUsers();
         public Task<ApplicationUser> GetUserByIdAsync(string UserId);

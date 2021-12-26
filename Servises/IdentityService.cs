@@ -213,9 +213,9 @@ namespace IdentityAPI.Servises
             return new Result { Success = true };
         }
 
-        public async Task<Result> SendResetPasswordConfirmationEmailAsync(string UserId)
+        public async Task<Result> SendResetPasswordConfirmationEmailAsync(string UserEmail)
         {
-            var user = await _userManager.FindByIdAsync(UserId);
+            var user = await _userManager.FindByEmailAsync(UserEmail);
 
             if (user == null)
             {
@@ -238,9 +238,9 @@ namespace IdentityAPI.Servises
             return new Result { Success = true };
         }
 
-        public async Task<Result> ResetPasswordAsync(string UserId, string token, string newPassword)
+        public async Task<Result> ResetPasswordAsync(string UserEmail, string token, string newPassword)
         {
-            var user = await _userManager.FindByIdAsync(UserId);
+            var user = await _userManager.FindByEmailAsync(UserEmail);
 
             if (user == null)
             {
@@ -261,7 +261,7 @@ namespace IdentityAPI.Servises
                     Errors = new[] { "the user not changed the passord" }
                 };
             }
-
+            user.UserName = user.Email;
             var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
 
             if (!result.Succeeded)
@@ -442,7 +442,7 @@ namespace IdentityAPI.Servises
 
         public async Task<ApplicationUser> GetUserByIdAsync(string UserId)
         {
-            return await _dataContext.Users.SingleOrDefaultAsync(x => x.Id == UserId);
+            return await _dataContext.Users.Include(x => x.City).Include(x => x.LegalStatus).SingleOrDefaultAsync(x => x.Id == UserId);
         }
 
         public async Task<bool> UpdateUserProfileAsync(ApplicationUser userToUpdate)
@@ -739,13 +739,19 @@ namespace IdentityAPI.Servises
             if (emailBuilder.Attachments != null) SetAttachments(emailBuilder.Attachments, ref builder);
             builder.HtmlBody = emailBuilder.Body;
             email.Body = builder.ToMessageBody();
-            email.Cc.AddRange(emailBuilder.Cc.Select(c => MailboxAddress.Parse(c)).ToList());
-            email.Bcc.AddRange(emailBuilder.Bcc.Select(c => MailboxAddress.Parse(c)).ToList());
+            //email.Cc.AddRange(emailBuilder.Cc.Select(c => MailboxAddress.Parse(c)).ToList());
+            //email.Bcc.AddRange(emailBuilder.Bcc.Select(c => MailboxAddress.Parse(c)).ToList());
             email.From.Add(new MailboxAddress(_mailSettings.DisplayName, _mailSettings.Email));
             #endregion
 
             #region send the email
             using var smpt = new SmtpClient();
+
+            //SecureSocketOptions options = new SecureSocketOptions
+            //{
+
+            //}:
+
             smpt.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
             smpt.Authenticate(_mailSettings.Email, _mailSettings.Password);
             await smpt.SendAsync(email);

@@ -47,7 +47,8 @@ namespace IdentityAPI.Controllers.V1
                 });
             }
 
-            return Ok(new UserRegistrationSuccessResponse {
+            return Ok(new UserRegistrationSuccessResponse
+            {
                 Email = request.Email,
                 FirstName = request.FirstName,
                 LastName = request.LastName
@@ -162,7 +163,7 @@ namespace IdentityAPI.Controllers.V1
         [HttpPost(ApiRoutes.Identity.ResetPassword)]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest request)
         {
-            var resetPasswordResponse = await _identityService.ResetPasswordAsync(request.UserId, request.Token, request.NewPassword);
+            var resetPasswordResponse = await _identityService.ResetPasswordAsync(request.UserEmail, request.Token, request.NewPassword);
 
             if (!resetPasswordResponse.Success)
             {
@@ -175,10 +176,10 @@ namespace IdentityAPI.Controllers.V1
             return Ok();
         }
 
-        [HttpGet(ApiRoutes.Identity.SendResetPasswordConfirmationEmail)]
-        public async Task<IActionResult> SendResetPasswordConfirmationEmail([FromRoute] string userId)
+        [HttpPost(ApiRoutes.Identity.SendResetPasswordConfirmationEmail)]
+        public async Task<IActionResult> SendResetPasswordConfirmationEmail([FromBody] SendResetPasswordRequest request)
         {
-            var sendResetPasswordConfirmationEmailResponse = await _identityService.SendResetPasswordConfirmationEmailAsync(userId);
+            var sendResetPasswordConfirmationEmailResponse = await _identityService.SendResetPasswordConfirmationEmailAsync(request.Email);
 
             if (!sendResetPasswordConfirmationEmailResponse.Success)
             {
@@ -190,6 +191,19 @@ namespace IdentityAPI.Controllers.V1
 
             return Ok();
         }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet(ApiRoutes.Identity.GetUserByToken)]
+        public async Task<IActionResult> GetUserByToken()
+        {
+            var user = await _identityService.GetUserByIdAsync(HttpContext.GetUserId());
+
+            if (user == null)
+                return NotFound();
+
+            return Ok(new Response<UserResponse>(_mapper.Map<UserResponse>(user)));
+        }
+
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = Roles.SuperAdmin)]
         [HttpPost(ApiRoutes.Identity.GetAllUsers)]

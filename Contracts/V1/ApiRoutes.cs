@@ -19,6 +19,7 @@
             public const string SendChangeEmailConfirmation = Base + "/identity/SendChangeEmailConfirmation";
             public const string ResetPassword = Base + "/identity/ResetPassword";
             public const string SendResetPasswordConfirmationEmail = Base + "/identity/SendResetPasswordConfirmationEmail";
+            public const string GetUserByToken = Base + "/identity/GetUserByToken";
             public const string GetAllUsers = Base + "/identity/GetAllUsers";
             public const string GetUserById = Base + "/identity/GetUserById/{userId}";
             public const string UpdateUserProfile = Base + "/identity/UpdateUserProfile/{userId}";
